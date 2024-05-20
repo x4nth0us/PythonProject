@@ -296,20 +296,22 @@ class Minesweeper:
 
     def show_results(self, game_status: str):
         result_window = Toplevel(self.window)
-        result_window.geometry("200x150")
+        result_window.title('Результаты')
+        result_window.geometry("150x110")
+        result_window.resizable(False, False)
 
         game_time = time.time() - self.time_start
         if game_status == 'win':
-            result_window.title('Победа!')
+            Label(result_window, text='Вы победили!').pack(anchor=CENTER, expand=1)
             self.best_times[self.difficulty] = min(self.best_times[self.difficulty], game_time)
         elif game_status == 'lose':
-            result_window.title('Поражение!')
+            Label(result_window, text='Вы проиграли!').pack(anchor=CENTER, expand=1)
 
-        Label(result_window, text=f'Ваше время: {game_time:.0f} \n'
-                                  f'Лучшее время: {self.best_times[self.difficulty]:.0f}').pack(anchor=CENTER,
-                                                                                                expand=1)
-        Button(result_window, text='Сыграть снова?', command=lambda: self.restart(result_window)).pack(anchor=CENTER,
-                                                                                                       expand=1)
+        Label(result_window, text=f'Ваше время: {game_time:.0f}').pack(anchor=CENTER, expand=1)
+        Label(result_window, text=f'Лучшее время: {self.best_times[self.difficulty]:.0f}').pack(anchor=CENTER, expand=1)
+
+        Button(result_window, text='Сыграть снова', command=lambda: self.restart(result_window)).pack(anchor=CENTER,
+                                                                                                      expand=1, pady=10)
 
         self.append_game_record(game_time, game_status, self.difficulty)
 
